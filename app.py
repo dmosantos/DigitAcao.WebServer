@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_cors import CORS
-from database import db, params
+from database import db
 
 from controllers.UserController import user_bp
 from controllers.CourseController import course_bp
@@ -9,16 +9,18 @@ from controllers.LessonController import lesson_bp
 
 # App Config
 app = Flask(__name__)
-app.secret_key = 'DigitAção'
-CORS(app)
+app.config.from_pyfile('config.py')
 
-# MySql Config
-app.config[params.MYSQL_HOST] = "tw7rbs8cuouf.us-east-1.psdb.cloud"
-app.config[params.MYSQL_USER] = "1376q1bawnyg"
-app.config[params.MYSQL_PASSWORD] = "pscale_pw_x2voHGr722sBcfcnlOP00QUgOWuNqYTF1P8izJwaHBg"
-app.config[params.MYSQL_DATABASE] = "digitacao"
-app.config[params.MYSQL_SSL_VERIFY_IDENTITY] = True
-app.config[params.MYSQL_SSL_CA] = os.path.dirname(os.path.abspath(__file__)) + '/config/ca-cert.pem'
+cors_config = {
+  "origins": ["*"],
+  "methods": ["OPTIONS", "GET", "POST"],
+  "allow_headers": ['Content-Type', 'Authorization']
+}
+CORS(app, resources={r"/*": cors_config})
+# CORS(app)
+
+print('teste')
+print(app.config['MYSQL_HOST'])
 
 db.init_app(app)
 

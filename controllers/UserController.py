@@ -4,6 +4,22 @@ from models import User
 
 user_bp = Blueprint('user_bp', __name__)
 
+@user_bp.route('', methods=["POST"])
+def sign_up():
+
+    json = request.get_json()
+    
+    user = User(
+        firstName=json['firstName'],
+        email=json['email'],
+        password=json['password']
+    )
+
+    response_message = user_service.sign_up(user)
+
+    return jsonify(response_message.__dict__)
+
+
 @user_bp.route('/login', methods=["POST"])
 def login():
 
@@ -14,6 +30,6 @@ def login():
         password=json['password']
     )
 
-    responseMessage = user_service.login(user)
+    response_message = user_service.login(user)
 
-    return jsonify(responseMessage.__dict__)
+    return jsonify(response_message.__dict__)

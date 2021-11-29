@@ -1,6 +1,35 @@
 from database import db
 from models import ResponseMessage
 
+
+# Faz o login
+def email_exists(email):
+
+    cursor = db.connection.cursor()
+    cursor.execute('SELECT UserId FROM User WHERE Email=%s', (email, ))
+    
+    row = cursor.fetchone()
+
+    return not (row == None)
+
+
+# Cadastra um novo usuário
+def sign_up(user):
+
+    if email_exists(user.email):
+        return ResponseMessage(errors=['alreadyRegistered'])
+
+    cursor = db.connection.cursor()
+    cursor.execute('INSERT INTO `User` (`FirstName`, `Email`, `Password`) VALUES (%s, %s, %s);', (user.firstName, user.email, user.password))
+
+    user.userId = cursor.lastrowid
+    db.connection.commit()
+
+    if user.userId == None or user.userId == 0:
+        return ResponseMessage(errors=['error'])
+    
+    return ResponseMessage(data=user.__dict__)
+
 # Faz o login
 def login(user):
 
@@ -18,6 +47,5 @@ def login(user):
     user.lastName = row[3]
     user.isAdministrator = row[4]
 
-    response = ResponseMessage(data=user.__dict__)
+    return ResponseMessage(data=user.__dict__)
 
-    return response
