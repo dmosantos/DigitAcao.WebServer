@@ -11,6 +11,8 @@ from controllers.LessonController import lesson_bp
 app = Flask(__name__)
 app.secret_key = 'DigitAção'
 CORS(app)
+app.config['development'] = True
+app.config['debug'] = True
 
 # MySql Config
 app.config[params.MYSQL_HOST] = "tw7rbs8cuouf.us-east-1.psdb.cloud"
