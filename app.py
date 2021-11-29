@@ -18,7 +18,7 @@ app.config[params.MYSQL_USER] = "1376q1bawnyg"
 app.config[params.MYSQL_PASSWORD] = "pscale_pw_x2voHGr722sBcfcnlOP00QUgOWuNqYTF1P8izJwaHBg"
 app.config[params.MYSQL_DATABASE] = "digitacao"
 app.config[params.MYSQL_SSL_VERIFY_IDENTITY] = True
-app.config[params.MYSQL_SSL_CA] = os.path.dirname(os.path.abspath(__file__)) + '\cacert.pem'
+app.config[params.MYSQL_SSL_CA] = os.path.dirname(os.path.abspath(__file__)) + '/config/ca-cert.pem'
 
 db.init_app(app)
 
